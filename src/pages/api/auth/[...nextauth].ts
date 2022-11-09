@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
     },
     pages: {
         signIn: '/auth/signin',
-        error: '/auth/signin'
+        error: '/auth/signin',
     },
 
     // Configure one or more authentication providers
@@ -36,5 +36,3 @@ export const authOptions: NextAuthOptions = {
 }
 
 export default NextAuth(authOptions)
-
-

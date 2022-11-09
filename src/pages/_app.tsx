@@ -18,9 +18,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     )
 }
 
-const anonymousRoutes = [
-    '/auth/signin'
-]
+const anonymousRoutes = ['/auth/signin']
 
 function SecureSession({
     children,

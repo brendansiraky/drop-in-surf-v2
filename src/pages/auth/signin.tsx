@@ -11,39 +11,47 @@ type SigninProps = {
 }
 
 const signinSchema = z.object({
-    email: z.string().email()
+    email: z.string().email(),
 })
 
 type Signin = z.infer<typeof signinSchema>
 
 const Signin: React.FC<SigninProps> = ({ providers }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<Signin>({
-        resolver: zodResolver(signinSchema)
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Signin>({
+        resolver: zodResolver(signinSchema),
     })
-    const onSubmit = handleSubmit(async data => {
+    const onSubmit = handleSubmit(async (data) => {
         signIn('email', {
-            email: data.email
+            email: data.email,
         })
     })
 
     return (
         <div>
             <h2>Custom Sign In</h2>
-            {Object.values(providers).map(provider => {
+            {Object.values(providers).map((provider) => {
                 if (provider.name === 'Email') {
                     return (
                         <form key={provider.id} onSubmit={onSubmit}>
                             <label>First Name</label>
                             <input {...register('email')} />
-                            {errors.email?.message && <p>{errors.email?.message}</p>}
+                            {errors.email?.message && (
+                                <p>{errors.email?.message}</p>
+                            )}
 
-                            <input type="submit" />
+                            <input type='submit' />
                         </form>
                     )
                 }
                 return (
                     <div key={provider.id}>
-                        <button onClick={() => signIn(provider.id)}>{provider.name}</button>
+                        <button onClick={() => signIn(provider.id)}>
+                            {provider.name}
+                        </button>
                     </div>
                 )
             })}
