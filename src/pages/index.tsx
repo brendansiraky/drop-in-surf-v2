@@ -1,6 +1,6 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 
 import { trpc } from '../utils/trpc'
 
@@ -9,10 +9,6 @@ const Home: NextPage = () => {
         email: 'brendansirakydeveloper@gmail.com',
     })
     const users = trpc.user.getAll.useQuery()
-
-    const session = useSession()
-
-    console.log(session.status)
 
     return (
         <>
