@@ -1,8 +1,8 @@
+import { styled } from '@stitches/react'
 import { GetStaticProps } from 'next'
-import { ClientSafeProvider, getProviders, signIn } from 'next-auth/react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { ClientSafeProvider, getProviders } from 'next-auth/react'
+import { AuthOptions } from '../../components/auth/AuthOptions'
+import { Sidebar } from '../../components/auth/Sidebar'
 
 type SigninProps = {
     providers: {
@@ -10,52 +10,19 @@ type SigninProps = {
     }
 }
 
-const signinSchema = z.object({
-    email: z.string().email(),
+const Container = styled('div', {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
 })
 
-type Signin = z.infer<typeof signinSchema>
-
 const Signin: React.FC<SigninProps> = ({ providers }) => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<Signin>({
-        resolver: zodResolver(signinSchema),
-    })
-    const onSubmit = handleSubmit(async (data) => {
-        signIn('email', {
-            email: data.email,
-        })
-    })
-
     return (
-        <div>
-            <h2>Custom Sign In</h2>
-            {Object.values(providers).map((provider) => {
-                if (provider.name === 'Email') {
-                    return (
-                        <form key={provider.id} onSubmit={onSubmit}>
-                            <label>First Name</label>
-                            <input {...register('email')} />
-                            {errors.email?.message && (
-                                <p>{errors.email?.message}</p>
-                            )}
-
-                            <input type='submit' />
-                        </form>
-                    )
-                }
-                return (
-                    <div key={provider.id}>
-                        <button onClick={() => signIn(provider.id)}>
-                            {provider.name}
-                        </button>
-                    </div>
-                )
-            })}
-        </div>
+        <Container>
+            <Sidebar>
+                <AuthOptions providers={providers} />
+            </Sidebar>
+        </Container>
     )
 }
 

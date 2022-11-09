@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 
 import { trpc } from '../utils/trpc'
 
+import '../styles/globals.css'
+
 const MyApp: AppType<{ session: Session | null }> = ({
     Component,
     pageProps: { session, ...pageProps },
