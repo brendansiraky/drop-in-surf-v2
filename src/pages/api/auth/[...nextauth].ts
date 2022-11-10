@@ -5,6 +5,8 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 import { env } from '../../../env/server.mjs'
 import { prisma } from '../../../server/db/client'
+import { Provider, ProviderType } from 'next-auth/providers/index.js'
+import { ClientSafeProvider } from 'next-auth/react/types.js'
 
 export const authOptions: NextAuthOptions = {
     // Include user.id on session
@@ -33,6 +35,11 @@ export const authOptions: NextAuthOptions = {
             clientSecret: env.GOOGLE_CLIENT_SECRET,
         }),
     ],
+}
+
+export type Providers = {
+    email: ClientSafeProvider
+    google: ClientSafeProvider
 }
 
 export default NextAuth(authOptions)

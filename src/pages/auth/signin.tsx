@@ -1,27 +1,44 @@
-import { styled } from '@stitches/react'
 import { GetStaticProps } from 'next'
-import { ClientSafeProvider, getProviders } from 'next-auth/react'
+import { getProviders } from 'next-auth/react'
+import Image from 'next/image'
+
 import { AuthOptions } from '../../components/auth/AuthOptions'
 import { Sidebar } from '../../components/auth/Sidebar'
+import { styled } from '../../stitches.global'
+import { Providers } from '../api/auth/[...nextauth]'
 
 type SigninProps = {
-    providers: {
-        [k in keyof ClientSafeProvider]: ClientSafeProvider
-    }
+    providers: Providers
 }
 
 const Container = styled('div', {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end',
+    flexer: 'row-end-start',
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url('/signin-background.jpg')`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+})
+
+const Logo = styled('div', {
+    position: 'absolute',
+    top: '$md',
+    left: '$md',
+    backgroundImage: `url('/logo.png')`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100px',
+    height: '100px',
 })
 
 const Signin: React.FC<SigninProps> = ({ providers }) => {
     return (
         <Container>
-            <Sidebar>
+            <Sidebar
+                title='Sign In'
+                subtitle='Enter your email below to receive a code to login with.'
+            >
                 <AuthOptions providers={providers} />
             </Sidebar>
+            <Logo />
         </Container>
     )
 }

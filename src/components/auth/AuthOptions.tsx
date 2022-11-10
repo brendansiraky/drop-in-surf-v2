@@ -1,24 +1,53 @@
-import { styled } from '@stitches/react'
-import { ClientSafeProvider, getProviders, signIn } from 'next-auth/react'
+import { ClientSafeProvider, signIn } from 'next-auth/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/router'
 import { z } from 'zod'
+
+import { styled } from '../../stitches.global'
+import { Button } from '../shared/button/Button'
+import { InputRow } from '../shared/input/InputRow'
+import { SocialOption } from './SocialOption'
+import { Providers } from '../../pages/api/auth/[...nextauth]'
+import { SigninError } from './SigninError'
 
 const signinSchema = z.object({
     email: z.string().email(),
 })
 
-type Signin = z.infer<typeof signinSchema>
+export type Signin = z.infer<typeof signinSchema>
 
-const Container = styled('div', {})
+const Container = styled('div', {
+    width: '100%',
+})
+
+const SignInButtonContainer = styled('div', {
+    marginTop: '$md',
+    flexer: 'row-end-start',
+})
+
+const Divider = styled('div', {
+    borderBottom: '1px solid lightgrey',
+    boxSizing: 'content-box',
+    width: '100%',
+    height: '1px',
+    my: '$lg',
+    overflow: 'visible',
+    flexer: 'row-center-center',
+
+    '& span': {
+        backgroundColor: '$sidebarBackground',
+        px: '$sm',
+    },
+})
 
 type AuthOptionsProps = {
-    providers: {
-        [k in keyof ClientSafeProvider]: ClientSafeProvider
-    }
+    providers: Providers
 }
 
 export const AuthOptions: React.FC<AuthOptionsProps> = ({ providers }) => {
+    const router = useRouter()
+
     const {
         register,
         handleSubmit,
@@ -30,32 +59,38 @@ export const AuthOptions: React.FC<AuthOptionsProps> = ({ providers }) => {
         signIn('email', {
             email: data.email,
         })
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     })
+
+    const { email, ...rest } = providers
 
     return (
         <Container>
-            {Object.values(providers).map((provider) => {
-                if (provider.name === 'Email') {
-                    return (
-                        <form key={provider.id} onSubmit={onSubmit}>
-                            <label>First Name</label>
-                            <input {...register('email')} />
-                            {errors.email?.message && (
-                                <p>{errors.email?.message}</p>
-                            )}
-
-                            <input type='submit' />
-                        </form>
-                    )
-                }
-                return (
-                    <div key={provider.id}>
-                        <button onClick={() => signIn(provider.id)}>
-                            {provider.name}
-                        </button>
-                    </div>
-                )
-            })}
+            {router.query?.error && (
+                <SigninError message={router.query.error.toString()} />
+            )}
+            <form onSubmit={onSubmit}>
+                <InputRow
+                    register={register}
+                    label='email'
+                    fieldName='email'
+                    errorMessage={errors.email?.message}
+                />
+                <SignInButtonContainer>
+                    <Button type='submit'>Sign In</Button>
+                </SignInButtonContainer>
+            </form>
+            <Divider>
+                <span>OR</span>
+            </Divider>
+            {Object.values(rest).map((provider: ClientSafeProvider) => (
+                <SocialOption key={provider.id} {...provider} />
+            ))}
         </Container>
     )
 }
