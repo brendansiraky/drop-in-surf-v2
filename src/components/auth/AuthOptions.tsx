@@ -1,4 +1,4 @@
-import { ClientSafeProvider, signIn } from 'next-auth/react'
+import { type ClientSafeProvider, signIn } from 'next-auth/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
@@ -8,7 +8,7 @@ import { styled } from '../../stitches.global'
 import { Button } from '../shared/button/Button'
 import { InputRow } from '../shared/input/InputRow'
 import { SocialOption } from './SocialOption'
-import { Providers } from '../../pages/api/auth/[...nextauth]'
+import { type Providers } from '../../pages/api/auth/[...nextauth]'
 import { SigninError } from './SigninError'
 
 const signinSchema = z.object({
@@ -59,12 +59,6 @@ export const AuthOptions: React.FC<AuthOptionsProps> = ({ providers }) => {
         signIn('email', {
             email: data.email,
         })
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
     })
 
     const { email, ...rest } = providers

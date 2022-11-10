@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { ClientSafeProvider, signIn } from 'next-auth/react'
+import { type ClientSafeProvider, signIn } from 'next-auth/react'
 
 import { styled } from '../../stitches.global'
 

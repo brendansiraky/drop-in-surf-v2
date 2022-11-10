@@ -1,11 +1,9 @@
-import { GetStaticProps } from 'next'
 import { getProviders } from 'next-auth/react'
-import Image from 'next/image'
 
 import { AuthOptions } from '../../components/auth/AuthOptions'
 import { Sidebar } from '../../components/auth/Sidebar'
 import { styled } from '../../stitches.global'
-import { Providers } from '../api/auth/[...nextauth]'
+import { type Providers } from '../api/auth/[...nextauth]'
 
 type SigninProps = {
     providers: Providers
@@ -43,7 +41,7 @@ const Signin: React.FC<SigninProps> = ({ providers }) => {
     )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps = async () => {
     const providers = await getProviders()
 
     return {

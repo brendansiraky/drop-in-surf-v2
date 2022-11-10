@@ -1,7 +1,7 @@
-import { forwardRef, InputHTMLAttributes } from 'react'
-import { useForm, UseFormRegister } from 'react-hook-form'
+import { type InputHTMLAttributes } from 'react'
+import { type UseFormRegister } from 'react-hook-form'
 import { styled } from '../../../stitches.global'
-import { Signin } from '../../auth/AuthOptions'
+import { type Signin } from '../../auth/AuthOptions'
 
 const StyledInput = styled('input', {
     backgroundColor: '#FFF',

@@ -1,4 +1,4 @@
-import { createStitches, ScaleValue } from '@stitches/react'
+import { createStitches, type ScaleValue } from '@stitches/react'
 
 type Direction = 'row' | 'column'
 type Alignment = 'start' | 'center' | 'end' | 'between' | 'around'

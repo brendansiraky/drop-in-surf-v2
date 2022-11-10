@@ -1,10 +1,9 @@
-import { AppProps, type AppType } from 'next/app'
-import { SessionProvider, useSession } from 'next-auth/react'
+import { type AppProps, type AppType } from 'next/app'
 import { type Session } from 'next-auth'
+import { SessionProvider, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 import { trpc } from '../utils/trpc'
-
 import '../styles/globals.css'
 
 const MyApp: AppType<{ session: Session | null }> = ({

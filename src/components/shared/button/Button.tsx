@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react'
+import { type ButtonHTMLAttributes } from 'react'
 import { styled } from '../../../stitches.global'
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
